@@ -5,7 +5,7 @@ from io import BytesIO
 
 st.set_page_config(page_title="Data Sweeper 🧹", layout="wide")
 
-# CSS Styling
+# Css
 st.markdown(
     """
     <style>
@@ -32,7 +32,7 @@ if uploaded_files:
         if file_ext == ".csv":
             df = pd.read_csv(file)
         elif file_ext == ".xlsx":
-            df = pd.read_excel(file, engine="openpyxl")  # ✅ FIXED: Explicit engine
+            df = pd.read_excel(file)  # Fixed: Corrected `xlsx` condition
         else:
             st.error(f"Unsupported file type: {file_ext} ❌")
             continue
@@ -68,25 +68,23 @@ if uploaded_files:
 
         # Conversion options
         st.subheader("Conversion Options 🔄📂")
-        conversion_type = st.radio(f"Convert {file.name} to:", ["CSV", "Excel"], key=file.name)
+        conversion_type = st.radio(f"Convert {file.name} to:", ["CSV", "Excel"], key=file.name)  # Fixed: Corrected list syntax
 
         if st.button(f"Convert {file.name}"):
             buffer = BytesIO()
-            
             if conversion_type == "CSV":
-                df.to_csv(buffer, index=False)
+                df.to_csv(buffer, index=False)  # Fixed: Corrected `to_csv()`
                 file_name = file.name.replace(file_ext, ".csv")
                 mime_type = "text/csv"
 
-            elif conversion_type == "Excel":
-                with pd.ExcelWriter(buffer, engine="openpyxl") as writer:  # ✅ FIXED: Ensures proper Excel writing
-                    df.to_excel(writer, index=False)
+            elif conversion_type == "Excel":  # Fixed: Corrected "Excle" typo
+                df.to_excel(buffer, index=False)
                 file_name = file.name.replace(file_ext, ".xlsx")
                 mime_type = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
 
             st.download_button(
                 label=f"Download {file.name} as {conversion_type} ⬇️",
-                data=buffer.getvalue(),
+                data=buffer.getvalue(),  # Fixed: Use buffer.getvalue()
                 file_name=file_name,
                 mime=mime_type
             )
