@@ -5,12 +5,6 @@ from io import BytesIO
 
 st.set_page_config(page_title="Data Sweeper 🧹", layout="wide")
 
-# Ensure openpyxl is available
-try:
-    import openpyxl
-except ImportError:
-    st.error("Missing dependency: `openpyxl` is required to read Excel files. Install it using `pip install openpyxl`.")
-
 # CSS Styling
 st.markdown(
     """
